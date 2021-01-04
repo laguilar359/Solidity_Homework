@@ -39,11 +39,18 @@ contract AssociateProfitSplitter{
         employee_two.transfer(amount);
         employee_three.transfer(amount);
         
+        // We may either have 1 or 2 wei leftover, so transfer the msg.value - amount * 3 back to msg.sender.
+        // This will re-multiply the amount by 3, then subtract it from the msg.value to account for any leftover wei, 
+        // and send it back to Human Resources.
         msg.sender.transfer(msg.value - amount*3);
         
         balanceContract = address(this).balance;
     }
     
+    /** Create a fallback function using function() external payable, and call the deposit function from within it.
+     * This will ensure that the logic in deposit executes if Ether is sent directly to the contract. 
+     * This is important to prevent Ether from being locked in the contract since we don't have a withdraw function in this use-case.
+     */
     function fallback() external payable {
         function() deposit;
         

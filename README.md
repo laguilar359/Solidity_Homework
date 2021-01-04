@@ -1,1 +1,2 @@
-# Solidity_Homework
+# Solidity: ProfitSplitter
+
